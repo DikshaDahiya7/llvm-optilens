@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+# Install Clang and LLVM core tools
+RUN apt-get update && apt-get install -y clang llvm && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy all project files
+COPY . .
+
+# Expose default HTTP port
+EXPOSE 8000
+
+# Start the web engine
+CMD ["python", "server.py"]
