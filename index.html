@@ -7,13 +7,12 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: #06070a; color: #f1f5f9; min-height: 100vh; padding: 24px; display: flex; flex-direction: column; align-items: center; }
 
-    /* Professional Tech Header */
+    /* Header without extra badges */
     .brand-header { width: 100%; max-width: 1100px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 14px; }
     .brand-title { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; color: #f8fafc; }
     .brand-title span { color: #38bdf8; font-weight: 500; }
-    .badge-live { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
 
-    /* Input & Trigger */
+    /* Input Bar */
     .input-bar { width: 100%; max-width: 1100px; display: flex; gap: 12px; margin-bottom: 18px; }
     textarea { flex: 1; height: 95px; background: #0b0e17; border: 1px solid #1e293b; border-radius: 10px; color: #38bdf8; font-family: Consolas, monospace; padding: 12px; font-size: 13px; resize: none; outline: none; }
     button { width: 190px; background: #0284c7; color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 14px; transition: 0.2s; letter-spacing: 0.5px; }
@@ -25,19 +24,19 @@
     .metric-card .title { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
     .metric-card .value { font-size: 26px; font-weight: 800; margin-top: 4px; }
 
-    /* Visualizer Lens */
-    .lens-wrapper { width: 100%; max-width: 1100px; position: relative; height: 490px; border-radius: 14px; overflow: hidden; border: 1px solid #1e293b; background: #080a10; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+    /* Comparison Container */
+    .lens-wrapper { width: 100%; max-width: 1100px; position: relative; height: 500px; border-radius: 14px; overflow: hidden; border: 1px solid #1e293b; background: #080a10; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
     .panel { position: absolute; top: 0; bottom: 0; width: 100%; height: 100%; padding: 24px; display: flex; flex-direction: column; overflow: hidden; }
     
     .panel-before { left: 0; background: radial-gradient(circle at 10% 10%, #15090e 0%, #07080d 100%); }
     .panel-after { left: 0; background: radial-gradient(circle at 90% 10%, #051412 0%, #07080d 100%); clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%); }
 
-    /* Plain English Cards */
-    .card-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
-    .info-card { background: rgba(15, 23, 42, 0.85); border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5; }
+    /* Compiler Explanation Cards */
+    .card-list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+    .info-card { background: rgba(15, 23, 42, 0.85); border-radius: 8px; padding: 14px; font-size: 13px; line-height: 1.5; }
     .info-card-red { border-left: 4px solid #ef4444; color: #fca5a5; }
     .info-card-green { border-left: 4px solid #10b981; color: #6ee7b7; }
-    .info-card b { color: #ffffff; display: block; margin-bottom: 2px; font-size: 14px; }
+    .info-card b { color: #ffffff; display: block; margin-bottom: 4px; font-size: 14px; }
 
     /* Drag Handle Slider */
     .slider-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: #38bdf8; cursor: ew-resize; box-shadow: 0 0 14px #38bdf8; }
@@ -48,13 +47,12 @@
 </head>
 <body>
 
-  <!-- Tech Heading -->
+  <!-- Clean Title Header -->
   <div class="brand-header">
-    <div class="brand-title">⚙️ LLVM CORE ENGINE <span>// CODE SYNTHESIS & RUNTIME OPTIMIZATION</span></div>
-    <div class="badge-live">Hardware Link Active</div>
+    <div class="brand-title">⚙️ LLVM CORE ENGINE <span>// INTERMEDIATE CODE OPTIMIZATION</span></div>
   </div>
 
-  <!-- Input & Trigger -->
+  <!-- Input Area -->
   <div class="input-bar">
     <textarea id="codeBox">int calculate() {
     int sum = 0;
@@ -70,63 +68,63 @@
     <button onclick="runCompiler()" id="runBtn">⚡ OPTIMIZE CODE</button>
   </div>
 
-  <!-- Counters -->
+  <!-- Real-Time Metrics -->
   <div class="metrics-bar">
     <div class="metric-card">
-      <div class="title">Memory Slots Needed</div>
+      <div class="title">Stack Allocations (alloca)</div>
       <div class="value" style="color: #f87171;" id="allocVal">0 ➔ 0</div>
     </div>
     <div class="metric-card">
-      <div class="title">Total Active Lines</div>
+      <div class="title">Instruction Volume</div>
       <div class="value" style="color: #fbbf24;" id="linesVal">0 lines</div>
     </div>
     <div class="metric-card">
-      <div class="title">Efficiency Boost</div>
+      <div class="title">Instruction Reduction</div>
       <div class="value" style="color: #34d399;" id="shrinkVal">0%</div>
     </div>
   </div>
 
-  <!-- Split Comparison Lens -->
+  <!-- Comparison Lens -->
   <div class="lens-wrapper" id="lensContainer">
     
-    <!-- BEFORE (PLAIN ENGLISH) -->
+    <!-- BEFORE: UNOPTIMIZED LLVM IR (-O0) -->
     <div class="panel panel-before">
-      <div style="font-size: 12px; font-weight: 800; color: #ef4444; letter-spacing: 0.5px;">● BEFORE: UNOPTIMIZED EXECUTION</div>
-      <h3 style="margin-top: 4px; font-size: 16px; color: #f8fafc;">Raw Line-by-Line Machine State</h3>
+      <div style="font-size: 12px; font-weight: 800; color: #ef4444; letter-spacing: 0.5px;">● UNOPTIMIZED INTERMEDIATE CODE (-O0)</div>
+      <h3 style="margin-top: 4px; font-size: 16px; color: #f8fafc;">Direct Syntax-Driven Code Generation</h3>
       
       <div class="card-list">
         <div class="info-card info-card-red">
-          <b>1. Heavy Memory Overhead</b>
-          Every variable allocates space in physical RAM, requiring slow read and write operations.
+          <b>1. Stack Memory Allocation (alloca)</b>
+          Every declared variable reserves memory on the stack RAM. Each access requires explicit read/write (load/store) instructions.
         </div>
         <div class="info-card info-card-red">
-          <b>2. Runtime Calculation Burden</b>
-          The processor is forced to run the loop iteration-by-iteration, calculating additions at runtime.
+          <b>2. Runtime Loop & Arithmetic Execution</b>
+          Arithmetic operations and loop branch evaluations are deferred entirely to CPU runtime execution.
         </div>
         <div class="info-card info-card-red">
-          <b>3. Retained Unused Variables</b>
-          Variables like <code>unused_cache</code> and <code>dead_flag</code> consume memory and binary space without purpose.
+          <b>3. Retained Dead Code</b>
+          Unreferenced and unused variables remain in the generated intermediate code, consuming registers and binary size.
         </div>
       </div>
     </div>
 
-    <!-- AFTER (PLAIN ENGLISH) -->
+    <!-- AFTER: OPTIMIZED LLVM IR (-O2) -->
     <div class="panel panel-after" id="afterPanel">
-      <div style="font-size: 12px; font-weight: 800; color: #10b981; letter-spacing: 0.5px; text-align: right;">● AFTER: OPTIMIZED EXECUTION</div>
-      <h3 style="margin-top: 4px; font-size: 16px; color: #f8fafc; text-align: right;">Direct & Ultra-Light Output</h3>
+      <div style="font-size: 12px; font-weight: 800; color: #10b981; letter-spacing: 0.5px; text-align: right;">● OPTIMIZED INTERMEDIATE CODE (-O2)</div>
+      <h3 style="margin-top: 4px; font-size: 16px; color: #f8fafc; text-align: right;">Target-Independent Optimization Passes</h3>
       
       <div class="card-list">
         <div class="info-card info-card-green">
-          <b>1. Pre-Computed Constant (Loop Elimination)</b>
-          The compiler solved the summation prior to execution. The loop is completely removed and replaced with the direct result (15).
+          <b>1. Register Promotion & Zero Stack Access</b>
+          Stack allocations are eliminated. Function parameters and computed values are mapped directly to hardware registers.
         </div>
         <div class="info-card info-card-green">
-          <b>2. Dead Code Elimination</b>
-          All unused and unreferenced variables are purged from the final binary, reclaiming memory.
+          <b>2. Constant Folding & Loop Unrolling</b>
+          Deterministic loops and known constant calculations are evaluated at compile-time, replacing complex blocks with a single static constant.
         </div>
         <div class="info-card info-card-green">
-          <b>3. Zero Stack Access</b>
-          No memory load/store cycles remain. The function returns the final value immediately from a CPU register.
+          <b>3. Dead Code Elimination (DCE)</b>
+          Unreachable instructions and unused variables that do not affect the program output are permanently discarded.
         </div>
       </div>
     </div>
@@ -136,7 +134,7 @@
     </div>
   </div>
 
-  <p class="help-hint">Drag the center slider left or right to compare the unoptimized baseline against the streamlined state.</p>
+  <p class="help-hint">Drag the center slider horizontally to compare unoptimized code against compiler-optimized IR.</p>
 
   <script>
     function animateValue(elem, start, end, duration, suffix = "") {
@@ -173,7 +171,7 @@
           return;
         }
 
-        document.getElementById("allocVal").innerText = `${data.raw_alloc} Slots ➔ ${data.opt_alloc} Slots`;
+        document.getElementById("allocVal").innerText = `${data.raw_alloc} Allocas ➔ ${data.opt_alloc}`;
         animateValue(document.getElementById("linesVal"), 0, data.opt_lines, 800, " lines");
         animateValue(document.getElementById("shrinkVal"), 0, data.saved_pct, 1000, "%");
 
